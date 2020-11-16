@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Happy Thanks Giving!</h1>
+    
+    <div class="turkey">
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        <span class="feather"></span>
+        
+        <div class="head">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+            <div class="beak"></div>
+        </div>
+        <a class="btn" id="nyan-btn">C
+        <div class="turkey-body" style="cursor:pointer">
+            <audio id="nyan" src="https://mingosounds.com/wp-content/uploads/2020/07/Turkey-Gobble-Sound-Effect.mp3" preload="metadata" type="audio/mpeg">
+             </audio>
+             <p>Click!</p>
+        </div>
+        </a>
+     
+    </div>
+    <script>
+        document.querySelector("body").addEventListener("mousemove", eyeball);
+        function eyeball() {
+          var eye = document.querySelectorAll(".eye");
+          eye.forEach(function(eye) {
+            // x & y are variables and x represents the x coordinate of the mouse and y represents the coordinate of the mouse.
+            let x = eye.getBoundingClientRect().left + eye.clientWidth / 2;
+            let y = eye.getBoundingClientRect().top + eye.clientHeight / 2;
+            let radian = Math.atan2(event.pageX - x, event.pageY - y);
+            //   rot is a variable (short for rotate)
+            let rot = radian * (180 / Math.PI) * -1 - 270;
+            eye.style.transform = "rotate(" + rot + "deg)";
+          });
+        }
+        var nyan = document.getElementById('nyan');
+var nyanBtn = document.getElementById('nyan-btn');
+
+function playPause(song){
+   if (song.paused && song.currentTime >= 0 && !song.ended) {
+      song.play();
+   } else {
+      song.pause();
+   }
+}
+
+function reset(btn, song){
+   if(btn.classList.contains('playing')){
+      btn.classList.toggle('playing');
+   }
+   song.pause();
+   song.currentTime = 0;
+}
+
+function progress(btn, song){
+   setTimeout(function(){
+      var end = song.duration; 
+      var current = song.currentTime;
+      var percent = current/(end/100);
+      //check if song is at the end
+      if(current==end){
+         reset(btn, song);
+      }
+      //set inset box shadow
+      //call function again
+      progress(btn, song);     
+   }, 1000);
+}
+
+nyanBtn.addEventListener('click', function(){
+   nyanBtn.classList.toggle('playing');
+   playPause(nyan);
+   progress(nyanBtn, nyan);
+});
+
+
+      </script>
+     
+</body>
+</html>
